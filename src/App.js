@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
-
+import TelegramClone from "./components/TelegramClone";
+import {ChakraProvider} from "@chakra-ui/react"
+import {SocketProvider} from "./contexts/SocketContext"
+import {ChatProvider} from "./contexts/chatContext"
+import useLocalStorage from "./hooks/useLocalStorage";
 function App() {
+  const [id,setId]=useLocalStorage("id","")
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <SocketProvider id={id}>
+        <ChatProvider id={id}>
+          <TelegramClone id={id} setId={setId}/>
+        </ChatProvider>
+      </SocketProvider>
+    </ChakraProvider>
   );
 }
 
