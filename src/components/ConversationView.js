@@ -29,14 +29,13 @@ export default function ConversationView({opse}) {
         setBackGround(sc.current)
     },[setBackGround])
     return (
-        <Box display="flex" flexDirection="column" boxShadow="lg" flex="1"  overflowY="auto">
+        <Box height="100%" display="flex" flexDirection="column" boxShadow="lg" flex="1" zIndex={["1","2"]} overflowY="auto">
                     <Collapse animateOpacity in={opse}>
                         <Box padding="3">
                             <Input ref={searchInput} type="text" onChange={searchHandle} placeholder="search"/>
                         </Box>
                     </Collapse>
-                    <Box  overflowY="auto" flexGrow="1">
-                        <Box height="50px" display="flex"  flexDirection="column">
+                    <Box display="flex"  flexDirection="column" overflowY="auto" flexGrow="1">
                             {conversations.map(con=>(
                                 <Box cursor="pointer" className="main"  padding="3" onClick={(e)=>{setIdsend(con.id);sc.current=e.target;setBackGround(e.target)}}   _focus={colorMode==="dark"?{bg:"gray.900"}:{bg:"gray.100"}}  _hover={colorMode==="dark"?{bg:"gray.900"}:{bg:"gray.100"}}  key={con.id}>
                                     <Box  whiteSpace="nowrap" textOverflow="ellipsis" style={{wordWrap:"normal",overflowX:"hidden"}}>
@@ -44,7 +43,6 @@ export default function ConversationView({opse}) {
                                     </Box>
                                 </Box>
                             ))}
-                        </Box>
                     </Box>
         </Box>
     )

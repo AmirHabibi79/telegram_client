@@ -1,4 +1,4 @@
-import {Box,Heading,useColorMode,useMediaQuery} from "@chakra-ui/react"
+import {Box,useColorMode,Heading} from "@chakra-ui/react"
 import Navbar from "./Navbar"
 import ConversationView from "./ConversationView"
 import ChatView from "./ChatView"
@@ -9,17 +9,19 @@ export default function TelegramClone({id,setId}) {
     const [opse,setOpse]=useState(false)
     const [,,,,,,,,,disconnect]=useContext(chatContext)
     const {colorMode}=useColorMode()
-    const [b500]=useMediaQuery("(min-width: 500px)")
     return (
         <>
-            {disconnect && <Box p='1' bg={colorMode==="light"?"gray.100":"gray.900"} display="flex" justifyContent="center"><Heading>Check Internet</Heading></Box>}
+            
             {id === ""?<SetIdView setId={setId}/>
             :
-            <Box display="flex" flexDirection='column' height="full" width="full">
-            <Navbar size={b500} id={id} setOpse={setOpse} opse={opse}/>
-            <Box flex="1" display="flex" flexDirection="row">
+            <Box display="flex" flexDirection='column'  height="100%" width="full">
+            { disconnect && <Box p='1' height="30px" position="sticky" bg={colorMode==="light"?"gray.100":"gray.900"} display="flex" justifyContent="center"><Heading fontSize="lg">Check Internet</Heading></Box>}
+            <Box position="relative">
+            <Navbar  id={id} setOpse={setOpse} opse={opse}/>
+            <Box height={disconnect?"calc(100vh - 60px - 30px)":"calc(100vh - 60px)"} flex="1" display="flex" flexDirection="row">
                 <ConversationView  opse={opse}/>
-                <ChatView size={b500} id={id}/>
+                <ChatView  id={id}/>
+            </Box>
             </Box>
             </Box>}
         </>

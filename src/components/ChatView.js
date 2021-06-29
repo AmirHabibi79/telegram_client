@@ -1,20 +1,23 @@
-import {Box,Heading,Button,Input,useColorMode,Flex} from "@chakra-ui/react"
+import {Box,Heading,Button,Input,useColorMode} from "@chakra-ui/react"
+import {ArrowBackIcon} from "@chakra-ui/icons"
 import { chatContext } from "../contexts/chatContext"
 import { useContext } from "react"
 import ChatMessage from "./ChatMessage"
-export default function ChatView({id,size}) {
+export default function ChatView({id}) {
     const {colorMode}=useColorMode()
-    const [chats,,,,,chatInput,sendHandle,showChat]=useContext(chatContext)
+    const [chats,,,,setId,chatInput,sendHandle,showChat,sendId]=useContext(chatContext)
     return (
         <>
-            {showChat?size?
-            <Box display="flex" flexDirection="column" flex="2" >
-            <Box  flexGrow="1" overflowY="auto">
-            <Box p="1" height="50px" display="flex" flexDirection="column">
+            {showChat?
+            <Box height="100%"  zIndex={["2","1"]} position={["absolute","unset"]} bg={colorMode==="dark"?"gray.800":"white"} width="100%" top="0" display="flex" flexDirection="column" flex="2" >
+            <Box height="60px"  boxShadow="md" width="full" alignItems="center" padding="2" display={["flex","none"]}>
+            <Button onClick={()=>setId()}><ArrowBackIcon/></Button>
+            <Heading width="200px" wordBreak="normal" style={{wordWrap:"normal"}} overflowX="hidden" textOverflow="ellipsis" fontSize="larger" ml="2">{sendId}</Heading>
+            </Box>
+            <Box height="100%" p="1" display="flex" flexDirection="column" overflowY="auto">
                 {chats.map((chat,i)=>(
                    <ChatMessage id={id} msg={chat} key={i}/>
             ))}
-            </Box>
             </Box>
             <Box  mt="1"  display="flex" justifyContent="space-between">
             <Input borderRadius="none" ref={chatInput} type="text" placeholder="message"/>
@@ -22,23 +25,9 @@ export default function ChatView({id,size}) {
             </Box>
             </Box>
             :
-            <Flex height="91vh" direction="column" width="100%"  bg={colorMode==="light"?"white":"gray.900"} position="absolute">
-                <Box flex="1" overflowY="auto">
-                <Box p="1" height="50px" display="flex" flexDirection="column">
-                    {chats.map((chat,i)=>(
-                       <ChatMessage id={id} msg={chat} key={i}/>
-                ))}
-                </Box>
-                </Box>
-                <Box  mt="1" display="flex" justifyContent="space-between">
-                <Input borderRadius="none" ref={chatInput} type="text" placeholder="message"/>
-                <Button borderRadius="none" onClick={sendHandle}>send</Button>
-                </Box>
-            </Flex>
-            :
-            size?<Box  justifyContent="center" alignItems='center'  display="flex" flexDirection="row" flex="2">
-            {colorMode==="dark"?<Heading p="2" borderRadius="lg" bg="gray.900">Search id and start chat</Heading>:<Heading p="2" borderRadius="lg" bg="gray.100">Search id and start chat</Heading>}
-            </Box>:""
+            <Box position={["absolute","unset"]} right="100%"  justifyContent="center" alignItems='center'  display="flex" flexDirection="row" flex="2">
+            <Heading fontSize={["unset","large","x-large","xx-large","xxx-large"]} p="2" borderRadius="lg" bg={colorMode==="dark"?"gray.900":"gray.100"}>Search id and start chat</Heading>
+            </Box>
             }
         </>
     )
