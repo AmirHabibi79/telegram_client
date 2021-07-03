@@ -2,7 +2,7 @@ import {Box,useColorMode,Heading} from "@chakra-ui/react"
 import Navbar from "./Navbar"
 import ConversationView from "./ConversationView"
 import ChatView from "./ChatView"
-import SetIdView from "./setIdView"
+import SignupView from "./signupView"
 import { chatContext } from "../contexts/chatContext"
 import {useState,useContext} from "react"
 export default function TelegramClone({id,setId}) {
@@ -12,7 +12,7 @@ export default function TelegramClone({id,setId}) {
     return (
         <>
             
-            {id === ""?<SetIdView setId={setId}/>
+            {id === ""?<SignupView setId={setId}/>
             :
             <Box display="flex" flexDirection='column'  height="100%" width="full">
             { disconnect && <Box p='1' height="30px" position="sticky" bg={colorMode==="light"?"gray.100":"gray.900"} display="flex" justifyContent="center"><Heading fontSize="lg">Check Internet</Heading></Box>}

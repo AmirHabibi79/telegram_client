@@ -1,7 +1,7 @@
 import {Box,Heading,Button,Input,useColorMode} from "@chakra-ui/react"
 import {ArrowBackIcon} from "@chakra-ui/icons"
 import { chatContext } from "../contexts/chatContext"
-import { useContext } from "react"
+import { useContext} from "react"
 import ChatMessage from "./ChatMessage"
 export default function ChatView({id}) {
     const {colorMode}=useColorMode()
@@ -14,11 +14,7 @@ export default function ChatView({id}) {
             <Button onClick={()=>setId()}><ArrowBackIcon/></Button>
             <Heading width="200px" wordBreak="normal" style={{wordWrap:"normal"}} overflowX="hidden" textOverflow="ellipsis" fontSize="larger" ml="2">{sendId}</Heading>
             </Box>
-            <Box height="100%" p="1" display="flex" flexDirection="column" overflowY="auto">
-                {chats.map((chat,i)=>(
-                   <ChatMessage id={id} msg={chat} key={i}/>
-            ))}
-            </Box>
+            <ChatMessage sendid={sendId} id={id} chats={chats}/>
             <Box  mt="1"  display="flex" justifyContent="space-between">
             <Input borderRadius="none" ref={chatInput} type="text" placeholder="message"/>
             <Button borderRadius="none" onClick={sendHandle}>send</Button>
