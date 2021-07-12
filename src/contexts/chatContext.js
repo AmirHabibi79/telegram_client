@@ -1,71 +1,78 @@
 import React,{useState,useContext,useRef, useEffect,useCallback} from 'react'
 import {socketContext} from "../contexts/SocketContext"
-import useLocalStorage from '../hooks/useLocalStorage'
 export const chatContext=React.createContext()
 
-export function ChatProvider({children,id:userId}) {
+export function ChatProvider({children,id:userId,conversations,setConversations,opse}) {
     const [chatSocket]=useContext(socketContext)
     const [disconnect,setDisconnect]=useState(false)
     const [chat,setChat]=useState([])
-    const [conversations,setConversations]=useLocalStorage("conversations",[])
     const [idsend,setIdsend]=useState()
     const [showChat,setShowChat]=useState(false)
+    const [search,setSearch]=useState([])
+    const [timeout,setTimeoutt]=useState()
     const chatInput=useRef()
     const searchInput=useRef()
-    const addMessageToConversation=useCallback((msg)=>{
-        const checkId=msg.from===userId?msg.to:msg.from
-        const exist=conversations.filter(con=>con.id===checkId)
-        if(exist.length===0){
-            const con={
-                id:checkId,
-                messages:[msg]
+    const clearchat=useCallback(()=>{
+        conversations.map(c=>{
+            if(c.selected){
+                c.selected=false
+                return c
             }
-            setConversations([...conversations,con])
+            return c
+        })
+        setConversations(conversations)
+        setChat()
+        setIdsend()
+        setShowChat(false)
+    },[conversations,setConversations])
+        
+    
+    const addMessageToConversation=useCallback((msg)=>{
+        const exist=conversations.filter(c=>c.conversationid===msg.conversationid)
+        if(exist.length>0){
+            setConversations([...conversations.map(c=>{
+                if(c.conversationid===msg.conversationid){
+                    c.messages.push(msg)
+                    return c
+                }
+                return c
+            })])
+            if(showChat){
+                setChat(preChats=>[...preChats,msg])
+            }
         }
         else{
-            const newMsg=conversations.map(con=>{
-                if(con.id===checkId){
-                    con.messages.push(msg)
-                    return con
-                }
-                else{
-                    return con
-                }
-            })
-            setConversations(newMsg)
-        }
-        if(showChat){
-            setChat(preChats=>[...preChats,msg])
-        }
-    },[setConversations,conversations,showChat,userId])
-    const addSearchToConversations=useCallback((info)=>{
-        if(info.length>0){
-            const exist=conversations.filter(con=>con.id===info[0])
-            if(exist.length===0){
-                const con={
-                    id:info[0],
-                    messages:[]
-                }
-                setConversations([...conversations,con])
-                setShowChat(false)
-                setIdsend()
+            setConversations([msg,...conversations])
+            if(showChat){
+                setChat(preChats=>[...preChats,msg])
             }
         }
-    },[conversations,setConversations])
+    },[setConversations,conversations,showChat])
+    const addSearch=useCallback(async(info)=>{ 
+     setSearch([...info])
+    },[])
     const searchHandle=()=>{
+        if(timeout)
+        clearTimeout(timeout)
         const info={
             id:userId,
             search:searchInput.current.value
         }
-        if(disconnect===false){
-            chatSocket.emit("search",info)
-        }
+       const to= setTimeout(()=>{
+            if(disconnect===false){
+                setSearch([])
+                chatSocket.emit("search",info)
+            }
+        },100)
+        setTimeoutt(to)
     }
     const sendHandle=()=>{
         const msg={
             message:chatInput.current.value,
             from:userId,
-            to:idsend
+            to:idsend.id,
+            conversationid:idsend.conversationid,
+            time:Date.now()
         }
         if(disconnect===false){
             chatSocket.emit("send",msg)
@@ -76,7 +83,7 @@ export function ChatProvider({children,id:userId}) {
     }
     useEffect(()=>{
         if(idsend){
-            const cc=conversations.filter(con=>con.id===idsend)
+            const cc=conversations.filter(con=>con.id===idsend.id)
             setChat(cc[0].messages)
             setShowChat(true)
         }
@@ -93,17 +100,26 @@ export function ChatProvider({children,id:userId}) {
     },[chatSocket])
     useEffect(()=>{
         if(chatSocket == null) return
-        chatSocket.on("search-back",addSearchToConversations)
+        chatSocket.on("search-back",addSearch)
         return  ()=>chatSocket.off("search-back")
-    },[chatSocket,addSearchToConversations])
+    },[chatSocket,addSearch])
     useEffect(()=>{
         if(chatSocket == null) return
 
         chatSocket.on("recevie",addMessageToConversation)
         return  ()=>chatSocket.off("recevie")
     },[chatSocket,addMessageToConversation])
+    useEffect(()=>{
+        if(!opse){
+            if(searchInput.current){
+                searchInput.current.value=""
+                setSearch([])
+            }
+            
+        }
+    },[opse])
     return (
-        <chatContext.Provider value={[chat,conversations,searchInput,searchHandle,setIdsend,chatInput,sendHandle,showChat,idsend,disconnect]}>
+        <chatContext.Provider value={[chat,conversations,searchInput,searchHandle,setIdsend,chatInput,sendHandle,showChat,idsend,disconnect,search,setSearch,setConversations,clearchat]}>
             {children}
         </chatContext.Provider>
     )

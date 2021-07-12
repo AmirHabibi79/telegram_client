@@ -33,7 +33,7 @@ export default function ChatMessage({chats,id,sendid}) {
     },[sendid])
     return (
         <Box  height="100%" p="1" display="flex" flexDirection="column"  overflowY="auto">
-            {showScrollToDonwBtn && <Button boxShadow="lg" position="absolute" top="70%" right="2%" width="40px" height="40px" borderRadius="50%" onClick={()=>setIsChatChanged(true)}><ArrowDownIcon/></Button>}
+            {showScrollToDonwBtn && <Button boxShadow="lg" position="absolute" top="80%" right="2%" width="40px" height="40px" borderRadius="50%" onClick={()=>setIsChatChanged(true)}><ArrowDownIcon/></Button>}
         {chats.map((msg,i)=>(
             <Box ref={chats.length===i+1?animationChat:null} key={i}>
             {msg.from===id
@@ -42,11 +42,11 @@ export default function ChatMessage({chats,id,sendid}) {
             {colorMode==="light"
             ?
             <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg="green.300">
-                <Heading fontSize="x-large">{msg.message}</Heading>
+                <Heading fontSize="large">{msg.message}</Heading>
             </Box>
             :
             <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg="gray.900">
-                <Heading fontSize="x-large">{msg.message}</Heading>
+                <Heading fontSize="large">{msg.message}</Heading>
             </Box>
             }
         </Box>
@@ -55,11 +55,11 @@ export default function ChatMessage({chats,id,sendid}) {
             {colorMode==="light"
             ?
             <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg="white">
-                <Heading fontSize="x-large">{msg.message}</Heading>
+                <Heading fontSize="large">{msg.message}</Heading>
             </Box>
             :
             <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg="gray.600">
-                <Heading fontSize="x-large">{msg.message}</Heading>
+                <Heading fontSize="large">{msg.message}</Heading>
             </Box>
             }
         </Box>

@@ -1,18 +1,23 @@
-import {Box,Heading,Button,Input,useColorMode} from "@chakra-ui/react"
+import {Box,Heading,Button,Input,useColorMode,Avatar,Text} from "@chakra-ui/react"
 import {ArrowBackIcon} from "@chakra-ui/icons"
 import { chatContext } from "../contexts/chatContext"
 import { useContext} from "react"
 import ChatMessage from "./ChatMessage"
 export default function ChatView({id}) {
     const {colorMode}=useColorMode()
-    const [chats,,,,setId,chatInput,sendHandle,showChat,sendId]=useContext(chatContext)
+    const [chats,,,,,chatInput,sendHandle,showChat,sendId,,,,,clearchat]=useContext(chatContext)
     return (
         <>
             {showChat?
-            <Box height="100%"  zIndex={["2","1"]} position={["absolute","unset"]} bg={colorMode==="dark"?"gray.800":"white"} width="100%" top="0" display="flex" flexDirection="column" flex="2" >
-            <Box height="60px"  boxShadow="md" width="full" alignItems="center" padding="2" display={["flex","none"]}>
-            <Button onClick={()=>setId()}><ArrowBackIcon/></Button>
-            <Heading width="200px" wordBreak="normal" style={{wordWrap:"normal"}} overflowX="hidden" textOverflow="ellipsis" fontSize="larger" ml="2">{sendId}</Heading>
+            <Box height="99%" mt="1" zIndex={["2","1"]} position={["absolute","unset"]} bg={colorMode==="dark"?"gray.800":"white"} width="100%" top="0" display="flex" flexDirection="column" flex={["2","1","2"]} >
+            <Box height="60px" zIndex="2" boxShadow="md" width="full" alignItems="center" padding="2" display={["flex","none"]}>
+            <Button onClick={clearchat}><ArrowBackIcon/></Button>
+            <Box ml="2" width="90%" display="flex">
+            <Avatar name={sendId.name+" "+sendId.family} src={sendId.profilepic}/>
+            <Box width="70%" ml="2" display="flex" flexDirection="column" justifyContent="space-between">
+                <Text whiteSpace="nowrap" overflowWrap="normal" overflowX="hidden" textOverflow="ellipsis" wordBreak="normal" width="90%" fontWeight="bold">{sendId.name+" "+sendId.family}</Text>
+            </Box>
+            </Box>
             </Box>
             <ChatMessage sendid={sendId} id={id} chats={chats}/>
             <Box  mt="1"  display="flex" justifyContent="space-between">
