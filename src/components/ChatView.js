@@ -2,8 +2,10 @@ import {Box,Heading,Button,Input,useColorMode,Avatar,Text} from "@chakra-ui/reac
 import {ArrowBackIcon} from "@chakra-ui/icons"
 import { chatContext } from "../contexts/chatContext"
 import { useContext} from "react"
+import {langContext} from "../contexts/LanguageContext"
 import ChatMessage from "./ChatMessage"
 export default function ChatView({id}) {
+    const {langdata}=useContext(langContext)
     const {colorMode}=useColorMode()
     const [chats,,,,,chatInput,sendHandle,showChat,sendId,,,,,clearchat]=useContext(chatContext)
     return (
@@ -21,13 +23,13 @@ export default function ChatView({id}) {
             </Box>
             <ChatMessage sendid={sendId} id={id} chats={chats}/>
             <Box  mt="1"  display="flex" justifyContent="space-between">
-            <Input borderRadius="none" ref={chatInput} type="text" placeholder="message"/>
-            <Button borderRadius="none" onClick={sendHandle}>send</Button>
+            <Input borderRadius="none" ref={chatInput} type="text" placeholder={langdata.mph}/>
+            <Button borderRadius="none" onClick={sendHandle}>{langdata.sbtn}</Button>
             </Box>
             </Box>
             :
             <Box position={["absolute","unset"]} right="100%"  justifyContent="center" alignItems='center'  display="flex" flexDirection="row" flex="2">
-            <Heading fontSize={["unset","large","x-large","xx-large","xxx-large"]} p="2" borderRadius="lg" bg={colorMode==="dark"?"gray.900":"gray.100"}>Search id and start chat</Heading>
+            <Heading fontSize={["unset","large","x-large","xx-large","xxx-large"]} p="2" borderRadius="lg" bg={colorMode==="dark"?"gray.900":"gray.100"}>{langdata.cvm}</Heading>
             </Box>
             }
         </>

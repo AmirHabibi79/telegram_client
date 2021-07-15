@@ -1,8 +1,10 @@
 import {Box,Input,Button,FormHelperText,FormControl,FormLabel,Avatar} from "@chakra-ui/react"
 import {FaCamera} from "react-icons/fa"
+import {langContext} from "../contexts/LanguageContext"
 import axios from 'axios'
-import { useEffect,useState,useRef } from "react"
+import { useEffect,useState,useRef,useContext } from "react"
 export default function SignupView({setcon,setinfo,disconnect}) {
+    const {langdata}=useContext(langContext)
     const inputProfile=useRef()
     const [profile,setProfile]=useState()
     const fields=["name","family","password","phone","userid"]
@@ -61,30 +63,30 @@ export default function SignupView({setcon,setinfo,disconnect}) {
                 <form  onSubmit={signup}>
                 <Input name="profile" accept=".jpeg,.png,.jpg" display="none" ref={inputProfile} type="file" ></Input>
 
-                <FormLabel >Enter Name</FormLabel>
-                <Input name="name" errorBorderColor="crimson" mb="1" type="text" placeholder="your name"/>
+                <FormLabel >{langdata.nlbl}</FormLabel>
+                <Input name="name" errorBorderColor="crimson" mb="1" type="text" placeholder={langdata.nph}/>
                 <FormHelperText fontSize="small" className="name" mb="1" color="red"></FormHelperText>
 
 
-                <FormLabel >Enter Family</FormLabel>
-                <Input name="family"  errorBorderColor="crimson" mb="1" type="text" placeholder="your family"/>
+                <FormLabel >{langdata.flbl}</FormLabel>
+                <Input name="family"  errorBorderColor="crimson" mb="1" type="text" placeholder={langdata.fph} />
                 <FormHelperText fontSize="small" className="family" mb="1" color="red"></FormHelperText>
 
-                <FormLabel >Enter Phone</FormLabel>
-                <Input  name="phone" errorBorderColor="crimson" mb="1" type="number"  placeholder="your phone"/>
+                <FormLabel >{langdata.fplbl} </FormLabel>
+                <Input  name="phone" errorBorderColor="crimson" mb="1" type="number"  placeholder={langdata.fpph}/>
                 <FormHelperText fontSize="small" className="phone" mb="1" color="red"></FormHelperText>
 
-                <FormLabel >Enter Password</FormLabel>
-                <Input name="password" errorBorderColor="crimson" mb="1" type="password" placeholder="your password"/>
+                <FormLabel >{langdata.plbl}</FormLabel>
+                <Input name="password" errorBorderColor="crimson" mb="1" type="password" placeholder={langdata.pph}/>
                 <FormHelperText fontSize="small" className="password" mb="1" color="red"></FormHelperText>
-                <FormHelperText mb="1" fontSize="small">password must contains 8 letters</FormHelperText>
+                <FormHelperText mb="1" fontSize="small">{langdata.pht}</FormHelperText>
 
-                <FormLabel >Enter Id</FormLabel>
-                <Input name="userid" errorBorderColor="crimson" mb="1" type="text"  placeholder="your id"/>
+                <FormLabel >{langdata.ilbl}</FormLabel>
+                <Input name="userid" errorBorderColor="crimson" mb="1" type="text"  placeholder={langdata.iph}/>
                 <FormHelperText fontSize="small" className="userid" mb="1" color="red"></FormHelperText>
-                <FormHelperText mb="4" fontSize="small">id must contains 6 letters</FormHelperText>
+                <FormHelperText mb="4" fontSize="small">{langdata.iht}</FormHelperText>
 
-                <Button type="submit" colorScheme="green" isDisabled={disconnect}>SignUp</Button>
+                <Button type="submit" colorScheme="green" isDisabled={disconnect}>{langdata.signbtn}</Button>
                 </form>
                 </Box>
                 </FormControl>

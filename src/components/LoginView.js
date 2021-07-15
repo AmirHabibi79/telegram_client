@@ -1,6 +1,9 @@
 import {Box,Input,Button,FormHelperText,FormControl,FormLabel} from "@chakra-ui/react"
 import axios from 'axios'
+import { useContext } from "react"
+import {langContext} from "../contexts/LanguageContext"
 export default function LoginView({setcon,setinfo,disconnect}) {
+    const {langdata}=useContext(langContext)
     const fields=["info","password"]
     const Login=async(e)=>{
         e.preventDefault()
@@ -38,16 +41,16 @@ export default function LoginView({setcon,setinfo,disconnect}) {
                 <form  onSubmit={Login}>
                 
 
-                <FormLabel >Enter Id or Phone</FormLabel>
-                <Input name="info" errorBorderColor="crimson" mb="1" type="text" placeholder="your id or phone"/>
+                <FormLabel >{langdata.iplbl}</FormLabel>
+                <Input name="info" errorBorderColor="crimson" mb="1" type="text" placeholder={langdata.ipph}/>
                 <FormHelperText fontSize="small" className="info" mb="1" color="red"></FormHelperText>
 
-                <FormLabel >Enter Password</FormLabel>
-                <Input name="password" errorBorderColor="crimson" mb="1" type="password" placeholder="your password"/>
+                <FormLabel >{langdata.plbl}</FormLabel>
+                <Input name="password" errorBorderColor="crimson" mb="1" type="password" placeholder={langdata.pph}/>
                 <FormHelperText fontSize="small" className="password" mb="1" color="red"></FormHelperText>
-                <FormHelperText mb="4" fontSize="small">password must contains 8 letters</FormHelperText>
+                <FormHelperText mb="4" fontSize="small">{langdata.pht}</FormHelperText>
 
-                <Button type="submit" colorScheme="green" isDisabled={disconnect}>Log in</Button>
+                <Button type="submit" colorScheme="green" isDisabled={disconnect}>{langdata.logbtn}</Button>
                 </form>
                 </Box>
                 </FormControl>

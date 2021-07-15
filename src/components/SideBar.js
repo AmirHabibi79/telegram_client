@@ -1,9 +1,11 @@
 import {Box,Collapse,Input,useColorMode,useTheme} from "@chakra-ui/react"
 import { chatContext } from "../contexts/chatContext"
 import {useContext, useEffect,useRef,useCallback} from "react"
+import {langContext} from "../contexts/LanguageContext"
 import SearchView from "./SearchView"
 import ConversationView from "./ConversationView"
 export default function SideBar({opse}) {
+    const {langdata}=useContext(langContext)
     const {colorMode}=useColorMode()
     const [,conversations,searchInput,searchHandle,,,,,,,search]=useContext(chatContext)
     const theme=useTheme()
@@ -34,7 +36,7 @@ export default function SideBar({opse}) {
         <Box height="100%" display="flex" flexDirection="column" boxShadow="lg" flex="1" zIndex={["1","2"]} overflowY="auto">
                     <Collapse animateOpacity in={opse}>
                         <Box padding="3">
-                            <Input ref={searchInput} type="text" onChange={searchHandle} placeholder="search"/>
+                            <Input ref={searchInput} type="text" onChange={searchHandle} placeholder={langdata.sph}/>
                         </Box>
                     </Collapse>
                     <Box display="flex"  flexDirection="column" overflowY="auto" flexGrow="1">

@@ -2,6 +2,7 @@ import TelegramClone from "./components/TelegramClone";
 import {ChakraProvider} from "@chakra-ui/react"
 import {SocketProvider} from "./contexts/SocketContext"
 import {ChatProvider} from "./contexts/chatContext"
+import {LangProvider} from "./contexts/LanguageContext"
 import useLocalStorage from "./hooks/useLocalStorage";
 import {useEffect, useState} from "react"
 function App() {
@@ -22,7 +23,9 @@ function App() {
     <ChakraProvider>
       <SocketProvider id={info.id}>
         <ChatProvider opse={opse} conversations={conversations} setConversations={setConversations} id={info.id}>
-          <TelegramClone opse={opse} setOpse={setOpse} info={info} setConversations={setConversations} setinfo={setInfo}/>
+          <LangProvider>
+            <TelegramClone opse={opse} setOpse={setOpse} info={info} setConversations={setConversations} setinfo={setInfo}/>
+          </LangProvider>
         </ChatProvider>
       </SocketProvider>
     </ChakraProvider>

@@ -1,5 +1,5 @@
 import {useCallback,useEffect,useRef, useState} from 'react'
-import {Box,Heading,useColorMode,Button} from "@chakra-ui/react"
+import {Box,Heading,useColorMode,Button,Text} from "@chakra-ui/react"
 import {ArrowDownIcon} from "@chakra-ui/icons"
 export default function ChatMessage({chats,id,sendid}) {
     const observer=useRef()
@@ -39,29 +39,23 @@ export default function ChatMessage({chats,id,sendid}) {
             {msg.from===id
         ?
         <Box  mb="3" display="flex" justifyContent="flex-end">
-            {colorMode==="light"
-            ?
-            <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg="green.300">
+            <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg={colorMode==="light"?"gray.300":"gray.900"}>
                 <Heading fontSize="large">{msg.message}</Heading>
+                <Box mt="2" display="flex" justifyContent="flex-end">
+                    <Text  fontSize="x-small">{new Date(msg.time).toLocaleTimeString([],{ hour: '2-digit', minute: '2-digit' })}</Text>
+                </Box>
             </Box>
-            :
-            <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg="gray.900">
-                <Heading fontSize="large">{msg.message}</Heading>
-            </Box>
-            }
+            
         </Box>
         :
         <Box  mb="3" display="flex" justifyContent="flex-start">
-            {colorMode==="light"
-            ?
-            <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg="white">
+            <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg={colorMode==="light"?"white":"gray.600"}>
                 <Heading fontSize="large">{msg.message}</Heading>
+                <Box mt="2" display="flex" justifyContent="flex-end">
+                    <Text  fontSize="x-small">{new Date(msg.time).toLocaleTimeString([],{ hour: '2-digit', minute: '2-digit' })}</Text>
+                </Box>
             </Box>
-            :
-            <Box p="2" maxWidth="160px" boxShadow="md" borderRadius="md" bg="gray.600">
-                <Heading fontSize="large">{msg.message}</Heading>
-            </Box>
-            }
+            
         </Box>
         }
             </Box>
